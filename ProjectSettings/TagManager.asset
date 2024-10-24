@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: crosshair
+    uniqueID: 1546332751
+    locked: 0
