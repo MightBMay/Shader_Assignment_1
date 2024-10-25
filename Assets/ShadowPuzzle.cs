@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,12 +12,19 @@ public class ShadowPuzzle
     {
         this.correct = correct;
         this.prefabPaths = prefabPaths;
-        Initialize();
     }
 
-    public void Initialize()
+    public GameObject[] Initialize()
     {
-        foreach (var path in prefabPaths) if( !string.IsNullOrEmpty(path) ) LoadObjectFromPath(path);
+        GameObject[] loadedObjects = new GameObject[4];
+        for (int i = 0; i < 4; i++)
+        {
+            string path = prefabPaths[i];
+            if (!string.IsNullOrEmpty(path)) { loadedObjects[i] = LoadObjectFromPath(path); }
+            else { Debug.Log(i + "  < Prefab path was null/empty."); return Array.Empty<GameObject>(); }
+        }
+
+        return loadedObjects;
      
     }
 
