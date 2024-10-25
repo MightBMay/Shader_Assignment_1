@@ -1,4 +1,5 @@
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,7 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform cameraTransform;
     [SerializeField] float moveSpeed;
     [SerializeField] float mouseSens;
+    [SerializeField] float rotationSpeed = 90;
     float xRotation;
+    bool inspectingObject;
+    public Transform selectedObject;
 
     // Start is called before the first frame update
     void Start()
@@ -21,18 +25,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveDir = new (Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        RotateCamera();
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            inspectingObject = !inspectingObject;
+            if(!inspectingObject) { selectedObject.rotation = Quaternion.Euler(0, 0, 0); }
+        }
+
+        if (inspectingObject) RotateObject();
+        else
+        {
+            RotateCamera();
+            moveDir = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
     }
 
     private void FixedUpdate()
     {
-        Vector3 worldMove = transform.TransformDirection(new (moveDir.x, 0, moveDir.y));
-        
-        rb.velocity = worldMove * moveSpeed;
-        RotateCamera();
+        MovePlayer();
     }
 
+    void MovePlayer()
+    {
+        Vector3 worldMove = transform.TransformDirection(new(moveDir.x, 0, moveDir.y));
+        rb.velocity = worldMove * moveSpeed;
+    }
     void RotateCamera()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSens * Time.deltaTime;
@@ -46,5 +63,21 @@ public class PlayerController : MonoBehaviour
 
         // Rotate the player body left/right based on X movement
         transform.Rotate(Vector3.up * mouseX);
+    }
+
+    void RotateObject()
+    {
+        selectedObject.Rotate(GetRotationVector());
+
+
+        Vector3 GetRotationVector()
+        {
+            return rotationSpeed * 
+            new Vector3(
+                Input.GetAxis("RotateX"),
+                Input.GetAxis("RotateY"),
+                Input.GetAxis("RotateZ")
+            ) * Time.deltaTime;
+        }
     }
 }
