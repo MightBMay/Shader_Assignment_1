@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     float xRotation;
     bool inspectingObject;
     public Transform selectedObject;
+    Vector3 selectedObjectOrigin;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +28,22 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            inspectingObject = !inspectingObject;
-            if(!inspectingObject) { selectedObject.rotation = Quaternion.Euler(0, 0, 0); }
+            if (selectedObject != null)
+            {
+                inspectingObject = !inspectingObject;
+                if (!inspectingObject) { selectedObject.rotation = Quaternion.Euler(0, 0, 0); }
+            }
+        }
+
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            DropObject();
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit)) { 
+                SelectObject(hit.collider.gameObject);
+            }
         }
 
         if (inspectingObject) RotateObject();
@@ -45,6 +60,26 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
     }
 
+    void SelectObject(GameObject target)
+    {
+        if(PuzzleManager.instance.FindObject(target) >= 0)
+        {
+            if (selectedObject != null) DropObject();
+            selectedObject = target.transform;
+            selectedObjectOrigin = target.transform.position;
+            selectedObject.SetParent(transform);
+        }
+    }
+
+    void DropObject()
+    {
+        inspectingObject = false;
+        selectedObject.position = selectedObjectOrigin;
+        selectedObject.rotation = Quaternion.Euler(0, 0, 0);
+        selectedObject.SetParent(null);
+        selectedObject = null;
+        
+    }
     void MovePlayer()
     {
         Vector3 worldMove = transform.TransformDirection(new(moveDir.x, 0, moveDir.y));
@@ -80,4 +115,6 @@ public class PlayerController : MonoBehaviour
             ) * Time.deltaTime;
         }
     }
+
+    
 }
