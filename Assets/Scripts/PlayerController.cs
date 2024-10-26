@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,12 +16,14 @@ public class PlayerController : MonoBehaviour
     bool inspectingObject;
     public Transform selectedObject;
     Vector3 selectedObjectOrigin;
-
+    Vector3 scrollOffset;
+    public float zoomSpeed;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+        cameraTransform.rotation =Quaternion.Euler(Vector3.zero);
     }
 
     // Update is called once per frame
@@ -35,13 +38,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        else if (Input.GetKeyDown(KeyCode.G))
+        else if (Input.GetMouseButtonDown(1))
         {
-            DropObject();
+            if(selectedObject !=null) DropObject();
         }
         else if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit)) { 
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit)) {
                 SelectObject(hit.collider.gameObject);
             }
         }
@@ -52,12 +55,19 @@ public class PlayerController : MonoBehaviour
             RotateCamera();
             moveDir = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
-
+        if(selectedObject!= null)
+        {
+            scrollOffset += Input.mouseScrollDelta.y * cameraTransform.forward*zoomSpeed * Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+        if(selectedObject!= null)
+        {
+            selectedObject.position = cameraTransform.position + (cameraTransform.forward*2.5f)+scrollOffset;
+        }
     }
 
     void SelectObject(GameObject target)
@@ -65,9 +75,9 @@ public class PlayerController : MonoBehaviour
         if(PuzzleManager.instance.FindObject(target) >= 0)
         {
             if (selectedObject != null) DropObject();
+            scrollOffset = Vector3.zero;
             selectedObject = target.transform;
             selectedObjectOrigin = target.transform.position;
-            selectedObject.SetParent(transform);
         }
     }
 
@@ -76,9 +86,9 @@ public class PlayerController : MonoBehaviour
         inspectingObject = false;
         selectedObject.position = selectedObjectOrigin;
         selectedObject.rotation = Quaternion.Euler(0, 0, 0);
-        selectedObject.SetParent(null);
         selectedObject = null;
-        
+        scrollOffset = Vector3.zero;
+
     }
     void MovePlayer()
     {

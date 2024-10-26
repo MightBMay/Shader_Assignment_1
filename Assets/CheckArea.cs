@@ -24,7 +24,7 @@ public class CheckArea : MonoBehaviour
         {
             if (PuzzleManager.instance.currentPuzzle.CheckAnswer(option.indexOfObject))
             {
-                Debug.Log("correct");
+                PuzzleManager.instance.EndPuzzle();
             }
             else
             {
