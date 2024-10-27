@@ -9,6 +9,7 @@ public class IntroScene : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        if (instance != null) Destroy(instance);
         instance = this;
     }
 
@@ -20,7 +21,6 @@ public class IntroScene : MonoBehaviour
     }
     public  IEnumerator StartLights(float delay)
     {
-        Debug.Log("s");
         yield return new WaitForSeconds(delay);
         x.SetActive(true);
         yield return new WaitForSeconds(1.5f);

@@ -26,13 +26,14 @@ public class PuzzleManager : MonoBehaviour
     };
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else { Destroy(this); }
+        if (instance != null) Destroy(instance);
+        instance = this;
        
     }
     private void Start()
     {
-        StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex]));
+        StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex], 5));
+        DialougeManager.instance.DialogueEnd += ()=> EndPuzzle();
     }
     public int FindObject(GameObject target)
     {
@@ -44,7 +45,7 @@ public class PuzzleManager : MonoBehaviour
     }
 
 
-    public IEnumerator StartPuzzle(ShadowPuzzle puzzle)
+    public IEnumerator StartPuzzle(ShadowPuzzle puzzle, float delay = 3)
     {
 
 
@@ -53,8 +54,9 @@ public class PuzzleManager : MonoBehaviour
         currentShadowCaster = options[0];
         currentShadowCaster.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
         currentShadowCaster.transform.position = new(0, 2.5f, 0);
+        currentShadowCaster.transform.SetParent(transform, true);
         Destroy(currentShadowCaster.GetComponent<PuzzleOption>());
-        yield return StartCoroutine(IntroScene.instance.StartLights(3));
+        yield return StartCoroutine(IntroScene.instance.StartLights(delay));
 
         for (int i =1; i<options.Length; i++)
         {
@@ -69,7 +71,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void EndPuzzle()
     {
-        foreach (GameObject target in options) { Destroy(target); }
+        foreach (GameObject target in options) { Destroy(target); Debug.Log(1); }
         Destroy(currentShadowCaster);
         currentPuzzle = null;
         LoadNextPuzzle();
