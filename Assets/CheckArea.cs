@@ -20,17 +20,11 @@ public class CheckArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out PuzzleOption option))
-        {
-            if (PuzzleManager.instance.currentPuzzle.CheckAnswer(option.indexOfObject))
-            {
-                PuzzleManager.instance.EndPuzzle();
-            }
-            else
-            {
-                Debug.Log("incorrect");
-            }
-        }
-        
+        if(other.TryGetComponent(out PuzzleOption option)) DialougeManager.instance.SendNextLine(PuzzleManager.instance.currentPuzzle.CheckAnswer(option.indexOfObject));
+        PuzzleManager.instance.DespawnOptions();
+        PlayerController.instance.DropObject();
+
+
+
     }
 }

@@ -71,7 +71,7 @@ public class PuzzleManager : MonoBehaviour
 
     public void EndPuzzle()
     {
-        foreach (GameObject target in options) { Destroy(target); Debug.Log(1); }
+        DespawnOptions();
         Destroy(currentShadowCaster);
         currentPuzzle = null;
         LoadNextPuzzle();
@@ -82,6 +82,10 @@ public class PuzzleManager : MonoBehaviour
         puzzleIndex++;
         if(puzzleIndex>= shadowPuzzles.Count) { EndGame();}
         StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex]));
+    }
+   public void DespawnOptions()
+    {
+        foreach (GameObject target in options) { Destroy(target); }
     }
     void EndGame()
     {

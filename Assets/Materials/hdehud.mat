@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d589ee6bc0e924b42a023bb597a216a3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4695eccbffe6f92428fe654af7363ba8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -75,7 +75,7 @@ Material:
     - _Cutoff2: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Float: 24.78
+    - _Float: 96.6
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,7 +83,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RimPower: 2
+    - _RimPower: -0.07
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -95,12 +95,12 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Colour: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GlowColour: {r: 0.5849056, g: 0.5242725, b: 0.3789011, a: 0}
+    - _GlowColour: {r: 1, g: 1, b: 1, a: 0}
     - _MainLight: {r: 0, g: 0, b: 0, a: 0}
     - _Scale: {r: 500, g: 500, b: 0, a: 0}
     - _SpecularColour: {r: 1, g: 1, b: 1, a: 1}
     - _WorldSpaceLightPos0: {r: 0, g: 0, b: 0, a: 0}
-    - _alpha_filter_scale: {r: 1000, g: 1000, b: 0, a: 0}
+    - _alpha_filter_scale: {r: 775.4, g: 1000, b: 0, a: 0}
     - _light: {r: 2.77, g: 1.32, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3181728083148415156

@@ -27,7 +27,7 @@ public class DialougeManager : MonoBehaviour
         if (isCorrect)
         {
             answer = correct[indexC];
-            //indexC++;
+            indexC++;
         }
         else
         {
@@ -35,15 +35,22 @@ public class DialougeManager : MonoBehaviour
             indexI++;
         }
 
-        return correct[indexC];
+        return answer;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            currentLine = StartCoroutine(LetterByLetter(GetLine(true)));
-        }
+
+    }
+
+    public void SendNextLine(bool correct) {
+        if (currentLine != null) {StopCoroutine(currentLine); text.text = ""; }
+
+        currentLine = StartCoroutine(
+            LetterByLetter(
+                GetLine(correct)
+                )
+            );
     }
     IEnumerator LetterByLetter(string str, float speed = 0.05f)
     {

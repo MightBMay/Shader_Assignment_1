@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     Rigidbody rb;
     Vector2 moveDir;
     Vector2 mouseDelta;
@@ -18,7 +20,16 @@ public class PlayerController : MonoBehaviour
     Vector3 selectedObjectOrigin;
     Vector3 scrollOffset;
     public float zoomSpeed;
+
+    public Action<bool> InspectEvent = (value) => { };
+    public Action<bool> HoldingEvent = (value) => { };
+
     // Start is called before the first frame update
+    private void Awake()
+    {
+        if(instance != null) Destroy(instance);
+        instance = this;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -28,13 +39,15 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (selectedObject != null)
             {
                 inspectingObject = !inspectingObject;
-                if (!inspectingObject) { selectedObject.rotation = Quaternion.Euler(0, 0, 0); }
+                if (!inspectingObject) { selectedObject.rotation = Quaternion.Euler(0, 0, 0); InspectEvent(false); }
+                else { InspectEvent(true); }
             }
         }
 
@@ -44,7 +57,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit)) {
+
+            if (selectedObject == null && Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit)) {
                 SelectObject(hit.collider.gameObject);
             }
         }
@@ -75,14 +89,16 @@ public class PlayerController : MonoBehaviour
         if(PuzzleManager.instance.FindObject(target) >= 0)
         {
             if (selectedObject != null) DropObject();
+            HoldingEvent(true);
             scrollOffset = Vector3.zero;
             selectedObject = target.transform;
             selectedObjectOrigin = target.transform.position;
         }
     }
 
-    void DropObject()
+    public void DropObject()
     {
+        HoldingEvent(false);
         inspectingObject = false;
         selectedObject.position = selectedObjectOrigin;
         selectedObject.rotation = Quaternion.Euler(0, 0, 0);
