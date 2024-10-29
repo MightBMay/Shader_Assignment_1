@@ -47,19 +47,16 @@ v2f vert(appdata v)
     return o;
 }
 
-            // Function to calculate greyscale based on luminance
+            // calculate greyscale based on luminance
 float3 ConvertToGrayscale(float3 color)
 {
-    return dot(color, float3(0.299, 0.587, 0.114)); // Standard luminance calculation- 
+    return dot(color, float3(0.299, 0.587, 0.114));
 }
 
 fixed4 frag(v2f i) : SV_Target
 {
                 // get colours from the main scene render texture (camera's view)
     fixed4 col = tex2D(_MainTex, i.uv);
-
-                // normalize color to the range [0, 1]
-    //float3 colorNormalized = saturate(col.rgb);
 
                 // LUT texture dimensions  (no height dimension, as the LUT used for my game are all 1 pixel tall.
     float cellWidth = 16.0;
