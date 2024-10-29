@@ -32,8 +32,16 @@ public class PuzzleManager : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex], 5));
-        DialougeManager.instance.DialogueEnd += ()=> EndPuzzle();
+       StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex], 5));
+       DialougeManager.instance.DialogueEnd += ()=> EndPuzzle();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            EndGame();
+        }
     }
     public int FindObject(GameObject target)
     {
@@ -81,7 +89,7 @@ public class PuzzleManager : MonoBehaviour
     {
         puzzleIndex++;
         if(puzzleIndex>= shadowPuzzles.Count) { EndGame();}
-        StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex]));
+        else StartCoroutine(StartPuzzle(shadowPuzzles[puzzleIndex]));
     }
    public void DespawnOptions()
     {
@@ -89,6 +97,6 @@ public class PuzzleManager : MonoBehaviour
     }
     void EndGame()
     {
-        Debug.Log("end");
+        StartCoroutine(DialougeManager.instance.FinalLine());
     }
 }

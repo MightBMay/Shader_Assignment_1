@@ -2,9 +2,9 @@ Shader"Custom/LUTColourGrading"
 {
     Properties
     {
-        _MainTex ("Main Texture", 2D) = "white" {}   // Render texture of the camera's view
-        _LUTTex ("LUT Texture", 2D) = "white" {}     // LUT texture (256x1)
-        _Saturation ("Saturation", Range(0, 2)) = 1  // Saturation control (0 = greyscale, 1 = full color)
+        _MainTex ("Main Texture", 2D) = "white" {}   // render texture of the camera's view
+        _LUTTex ("LUT Texture", 2D) = "white" {}     // LUT texture
+        _Saturation ("Saturation", Range(0, 2)) = 1  // saturation control to adjust LUT strength.
     }
     SubShader
     {
@@ -34,52 +34,53 @@ struct v2f
     float4 vertex : SV_POSITION;
 };
 
-sampler2D _MainTex; // Camera render texture
-sampler2D _LUTTex; // LUT texture (256x1)
-float _Saturation; // Saturation control
+sampler2D _MainTex; 
+sampler2D _LUTTex; 
+float _Saturation; 
 
 v2f vert(appdata v)
 {
-    v2f o;
-    o.vertex = UnityObjectToClipPos(v.vertex); // Object space to clip space conversion
-    o.uv = v.uv;
+    v2f o;                                     // object space to clip space conversion.
+    o.vertex = UnityObjectToClipPos(v.vertex); // not going to lie, i don't fully understand the math behind this,
+                                               // but without it, the entire render texture turns magenta.
+    o.uv = v.uv; 
     return o;
 }
 
             // Function to calculate greyscale based on luminance
 float3 ConvertToGrayscale(float3 color)
 {
-    return dot(color, float3(0.299, 0.587, 0.114)); // Standard luminance calculation
+    return dot(color, float3(0.299, 0.587, 0.114)); // Standard luminance calculation- 
 }
 
 fixed4 frag(v2f i) : SV_Target
 {
-                // Get color from the main scene texture (camera view)
+                // get colours from the main scene render texture (camera's view)
     fixed4 col = tex2D(_MainTex, i.uv);
 
-                // Normalize color to the range [0, 1]
-    float3 colorNormalized = saturate(col.rgb);
+                // normalize color to the range [0, 1]
+    //float3 colorNormalized = saturate(col.rgb);
 
-                // LUT texture dimensions
+                // LUT texture dimensions  (no height dimension, as the LUT used for my game are all 1 pixel tall.
     float cellWidth = 16.0;
     float lutWidth = 256.0;
 
-                // Calculate UV coordinates for LUT sampling
-    float lutX = colorNormalized.r * (cellWidth - 1.0) + colorNormalized.g * (cellWidth - 1.0) * cellWidth;
+                // calculate UV coordinates for LUT sampling
+    float lutX = col.r * (cellWidth - 1.0) + col.g * (cellWidth - 1.0) * cellWidth;
 
                 // LUT Y coordinate is always 0 since it's a 1-pixel high LUT
     float2 lutUV = float2(lutX / lutWidth, 0.0);
 
-                // Sample the LUT for the color
+                // sample LUT for color
     fixed4 lutColor = tex2D(_LUTTex, lutUV);
 
-                // Convert LUT color to greyscale
+                // convert LUT color to greyscale
     float3 greyscaleColor = ConvertToGrayscale(lutColor.rgb);
 
-                // Blend between LUT color and greyscale based on the saturation parameter
+                // blend between LUT color and greyscale based on the saturation
     float3 finalColor = lerp(greyscaleColor.xxx, lutColor.rgb, _Saturation);
 
-                // Return the final color with the adjusted saturation
+                //return final color with adjusted saturation
     return fixed4(finalColor, lutColor.a);
 }
             ENDCG

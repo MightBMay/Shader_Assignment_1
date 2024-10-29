@@ -59,7 +59,10 @@ public class PlayerController : MonoBehaviour
         {
 
             if (selectedObject == null && Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit)) {
-                SelectObject(hit.collider.gameObject);
+                if (hit.collider != null)
+                {
+                    SelectObject(hit.collider.gameObject);
+                }
             }
         }
 

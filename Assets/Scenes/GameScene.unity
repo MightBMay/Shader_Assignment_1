@@ -2190,13 +2190,19 @@ MonoBehaviour:
   - Now is the time.
   - You can do this.
   - This was meant to be.
+  - Perfect.
+  - It's complete
+  - I can think clearly once more.
   incorrect:
   - I don't understand...
   - How could this be?
   - Maybe next time...
   - I can't do this.
   - It's never going to work out.
-  - 
+  - 'Please. '
+  - Its over.
+  - The solutions to my problems continue to evade me.
+  neutralEnding: My head shall remain foggy.
   text: {fileID: 10323370}
   inputPrompt: {fileID: 83573329}
 --- !u!1 &1359909808
@@ -2310,6 +2316,8 @@ GameObject:
   - component: {fileID: 1377493316}
   - component: {fileID: 1377493315}
   - component: {fileID: 1377493319}
+  - component: {fileID: 1377493321}
+  - component: {fileID: 1377493320}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -2337,7 +2345,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377493314}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2420,6 +2428,117 @@ MonoBehaviour:
   - {fileID: 7990839954708947496, guid: baea808cbc06c7445a79f9be1a120a4c, type: 3}
   - {fileID: 1902702642816435291, guid: 64fcd2d8b3d1fcf45984a155159985eb, type: 3}
   OptionHolder: {fileID: 412105198}
+--- !u!82 &1377493320
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377493314}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.85
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1377493321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377493314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd49153c65f49f42a9e12d2104738ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LightOn: {fileID: 8300000, guid: 559c80a1b83e09b4097eba27fb863bab, type: 3}
+  Correct: {fileID: 0}
+  Incorrect: {fileID: 0}
 --- !u!1 &1484639999
 GameObject:
   m_ObjectHideFlags: 0

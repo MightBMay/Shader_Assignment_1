@@ -9,6 +9,7 @@ public class DialougeManager : MonoBehaviour
     public static DialougeManager instance;
     [SerializeField] string[] correct;
     [SerializeField] string[] incorrect;
+    [SerializeField] string neutralEnding;
     int indexC;
     int indexI;
     [SerializeField] TextMeshProUGUI text;
@@ -38,11 +39,6 @@ public class DialougeManager : MonoBehaviour
         return answer;
     }
 
-    private void Update()
-    {
-
-    }
-
     public void SendNextLine(bool correct) {
         if (currentLine != null) {StopCoroutine(currentLine); text.text = ""; }
 
@@ -51,6 +47,29 @@ public class DialougeManager : MonoBehaviour
                 GetLine(correct)
                 )
             );
+    }
+
+    public IEnumerator FinalLine()
+    {
+        yield return new WaitForSeconds(1);
+        string final = "";
+        if (indexC == 6)
+        {
+            final = correct[7];
+        }
+        else if (indexI == 6)
+        {
+            final = incorrect[7];
+        }
+        else final = neutralEnding;
+
+        
+
+        yield return currentLine = StartCoroutine(
+            LetterByLetter(final)
+        );
+
+        StartCoroutine(IntroScene.instance.SetDarkSlow());
     }
     IEnumerator LetterByLetter(string str, float speed = 0.05f)
     {
@@ -65,9 +84,12 @@ public class DialougeManager : MonoBehaviour
         inputPrompt.SetActive(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         DialogueEnd();
+        yield return null;
+        yield return null; // had issues deleting first character of consecutive lines. this might be the worst way to fix it but wtv.
         text.text = "";
         inputPrompt.SetActive(false);
         currentLine = null;
+        
     }
     public void ClearText()
     {
