@@ -2185,24 +2185,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correct:
-  - You feel your mind declutter.
-  - You hear your thoughts once more.
-  - Now is the time.
+  - Correct.
+  - You're doing great
   - You can do this.
+  - Continue
   - This was meant to be.
   - Perfect.
   - It's complete
-  - I can think clearly once more.
+  - I think i'm taking a liking to you. you're quite... clever.
   incorrect:
-  - I don't understand...
-  - How could this be?
+  - Not quite.
+  - Please, take your time.
   - Maybe next time...
-  - I can't do this.
+  - You can't do this.
   - It's never going to work out.
-  - 'Please. '
+  - How could this be?
   - Its over.
-  - The solutions to my problems continue to evade me.
-  neutralEnding: My head shall remain foggy.
+  - Maybe one day you'll learn... Until then, i wish you luck. try again once more,
+    and maybe things will go differently.
+  neutralEnding: 'You have passed the test, but are not yet free to go. '
   text: {fileID: 10323370}
   inputPrompt: {fileID: 83573329}
 --- !u!1 &1359909808
