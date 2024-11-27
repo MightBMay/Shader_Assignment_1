@@ -37,10 +37,7 @@ public class PuzzleManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            EndGame();
-        }
+
     }
     public int FindObject(GameObject target)
     {
